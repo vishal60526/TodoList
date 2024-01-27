@@ -1,13 +1,15 @@
+import { useContext } from "react";
 import Returnitem from "./Returnitem";
+import ConstApi from "./contextapi/ConstApi";
 
-const ListToDo = ({val,handleRemove}) => {
-   let mystyle
+const ListToDo = () => {
+const {val}=useContext(ConstApi);
 
     return (
       <div>
     
            { val.map((item)=>
-               (<Returnitem handleRemove={handleRemove} itemDoc={item.doc} key={item.date} itemDate={item.date}> </Returnitem>)
+               (<Returnitem itemDoc={item.doc} key={item.date} itemDate={item.date}> </Returnitem>)
             
             
     )}

@@ -1,31 +1,32 @@
 
-import { useState } from "react";
-import Container from "./Container"
+import { useEffect, useState } from "react";
+
 import Inputs from "./Inputs"
 import ListToDo from "./ListToDo"
+import ConstApi from "./contextapi/ConstApi";
 function App() {
 
 
   const [val, setVal] = useState([
-  
+
   ]);
-  
-  function handeAddbtn(newDoc,newDate) {
-    let newval = [...val, { doc: newDoc, date: newDate }]
-    setVal(newval);
-     }
-  function handleRemove(itemDoc, itemDate) {
- let newval=val.filter((items)=>(items.doc!==itemDoc && items.date!==itemDate ))
- setVal(newval);
-
-
+ useEffect(()=>{
+  const val=JSON.parse(localStorage.getItem("vals"));
+  if(val && val.length>0){
+setVal(val)
   }
+ },[])
+ useEffect(()=>{
+  localStorage.setItem("vals",JSON.stringify(val));
+  }
+ ,[val])
+ 
   return (
-    <Container>
+    <ConstApi.Provider value={{val,setVal}}>
       <h1>toDo App</h1>
-      <Inputs handleAdd={handeAddbtn}></Inputs>
-      <ListToDo val={val} handleRemove={handleRemove}></ListToDo>
-    </Container>
+      <Inputs></Inputs>
+      <ListToDo ></ListToDo>
+    </ConstApi.Provider>
   )
 }
 
